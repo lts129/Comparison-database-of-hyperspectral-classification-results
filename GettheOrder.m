@@ -1,9 +1,12 @@
 function [Database,Order]=GettheOrder(Database,FindingTable)
 l=length(FindingTable);
+k=length(Database);
+ok=ones(k,1);
 for i=1:l
     NumofFigure=find(strcmp({Database.Figure},FindingTable{i,1})==1);
     NumofCondition=find(cell2mat({Database.Condition})==FindingTable{i,2});
     NumforCondition=intersect(NumofFigure,NumofCondition);
+    ok(NumforCondition,1)=0;
     Result=cell2mat({Database(NumforCondition).Result});
     Num={Database(NumforCondition).Num};
     [output,order]=sort(Result,'descend');
@@ -217,4 +220,123 @@ for i=1:l
     Order(i).LowerL=LowerL;
     clearvars Table
 end
+% Order(l+1).Table=ok;
+%%底线/顶线分数修正
+ALLFIGURE={'IP','UP','SV','HST','KSC','BSW','DC','CP'};
+Finding{1}=cell2mat([{0.01},   {0.03}, {0.05}, {0.1},  {0.15}, {5},    {10},   {15},   {50},   {200}]);
+Finding{2}=cell2mat([{0.01},  {0.05}, {0.1},  {0},    {5},    {10},   {15},   {20},   {30},   {40},   {50},   {100},  {200}]);
+Finding{3}=cell2mat([{0.01},  {0.05}, {0.1},  {5},    {10},   {20},   {50},   {200}]);
+for i=1:3
+    NumofFigure = find(strcmp({Database.Figure},ALLFIGURE{i})==1);
+    ConditionofFigure=unique(cell2mat({Database(NumofFigure).Condition}));
+    for j=1:length(NumofFigure)
+        Condition=Database(NumofFigure(j)).Condition;
+        if(Condition>1)
+            NF=find(Finding{i}>Condition);
+            if(~isempty(NF))
+                NOF=find(strcmp({Order.Figure},ALLFIGURE{i})==1);
+                NOC=find(cell2mat({Order.Condition})==Finding{i}(NF(1)));
+                NFC=intersect(NOF,NOC);
+                NextResult=cell2mat(Order(NFC).Table(1,:));
+                NextScore=cell2mat(Order(NFC).Table(3,:));
+                RF=find(NextResult<Database(NumofFigure(j)).Result);
+                if(~isempty(RF))
+                    if(isempty(Database(NumofFigure(j)).Score))
+                        if(Finding{i}(NF(1))<=Condition*1.34)
+                        Database(NumofFigure(j)).Score=NextScore(RF(1))*Finding{i}(NF(1))/Condition;
+                        if(Database(NumofFigure(j)).Score>1)
+                            Database(NumofFigure(j)).Score=1;
+                        end
+                        end
+                    end
+                        if(Database(NumofFigure(j)).Score<NextScore(RF(1)))
+                        Database(NumofFigure(j)).Score=NextScore(RF(1));
+                    end
+                end
+            end
+            
+            NF=find(Finding{i}<Condition);
+            if(~isempty(NF))
+                if(Finding{i}(NF(1))>1)
+                    NOF=find(strcmp({Order.Figure},ALLFIGURE{i})==1);
+                    NOC=find(cell2mat({Order.Condition})==Finding{i}(NF(1)));
+                    NFC=intersect(NOF,NOC);
+                    LastResult=cell2mat(Order(NFC).Table(1,:));
+                    LastScore=cell2mat(Order(NFC).Table(3,:));
+                    RF=find(LastResult>Database(NumofFigure(j)).Result);
+                    if(~isempty(RF))
+                        if(~isempty(Database(NumofFigure(j)).Score))
+                            if(Database(NumofFigure(j)).Score>LastScore(RF(end)))
+                                Database(NumofFigure(j)).Score=LastScore(RF(end));
+                            end
+                        end
+                        if(RF(end)==length(LastResult))
+                            Database(NumofFigure(j)).Score=0;
+                        end
+                        
+                    end
+                end
+            end
+        end
+        if((Condition<1)&&(Condition>0))
+            NF=find(Finding{i}>Condition);
+            if(~isempty(NF))
+                if(Finding{i}(NF(1))<1)
+                    NOF=find(strcmp({Order.Figure},ALLFIGURE{i})==1);
+                    NOC=find(cell2mat({Order.Condition})==Finding{i}(NF(1)));
+                    NFC=intersect(NOF,NOC);
+                    NextResult=cell2mat(Order(NFC).Table(1,:));
+                    NextScore=cell2mat(Order(NFC).Table(3,:));
+                    RF=find(NextResult<Database(NumofFigure(j)).Result);
+                    if(~isempty(RF))
+                        if(isempty(Database(NumofFigure(j)).Score))
+                            if(Finding{i}(NF(1))<=Condition*1.34)
+                            Database(NumofFigure(j)).Score=NextScore(RF(1))*Finding{i}(NF(1))/Condition;
+                        if(Database(NumofFigure(j)).Score>1)
+                            Database(NumofFigure(j)).Score=1;
+                        end
+                            end
+                        end
+                            if(Database(NumofFigure(j)).Score<NextScore(RF(1)))
+                            Database(NumofFigure(j)).Score=NextScore(RF(1));
+                        end
+                    end
+                end
+            end
+            
+            NF=find(Finding{i}<Condition);
+            if(~isempty(NF))
+                if(Finding{i}(NF(1))>0)
+                    NOF=find(strcmp({Order.Figure},ALLFIGURE{i})==1);
+                    NOC=find(cell2mat({Order.Condition})==Finding{i}(NF(1)));
+                    NFC=intersect(NOF,NOC);
+                    LastResult=cell2mat(Order(NFC).Table(1,:));
+                    LastScore=cell2mat(Order(NFC).Table(3,:));
+                    RF=find(LastResult>Database(NumofFigure(j)).Result);
+                    if(~isempty(RF))
+                        if(~isempty(Database(NumofFigure(j)).Score))
+                            if(Database(NumofFigure(j)).Score>LastScore(RF(end)))
+                                Database(NumofFigure(j)).Score=LastScore(RF(end));
+                            end
+                        end
+                        if(RF(end)==length(LastResult))
+                            Database(NumofFigure(j)).Score=0;
+                        end
+                    end
+                end
+            end
+            
+            
+            
+            
+        end
+        
+        
+        
+    end
+end
+
+
+
+
 end
