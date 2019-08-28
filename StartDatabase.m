@@ -1,0 +1,19 @@
+function Database=StartDatabase(Num,Figure,Condition,Result,Magazine,Name,Remark)
+Database(1).NumOfDatabase=1;
+Database(1).Num=Num;
+Database(1).Figure=Figure;
+Database(1).Condition=Condition;
+Database(1).Result=Result;
+if(~exist('Magazine'))
+    Magazine='None';
+end
+if(~exist('Name'))
+    Name='Î´ÃüÃû';
+end
+if(~exist('Remark'))
+    Remark='ÎŞ';
+end
+Database(1).Magazine=Magazine;
+Database(1).Name=Name;
+Database(1).Remark=Remark;
+end

@@ -1,0 +1,132 @@
+function [DBofMethod] = ReturntoDBM(Database)
+NumofDatabase=length(Database);
+NumofMethod=0;
+NumofMethod=NumofMethod+1;
+DBofMethod(NumofMethod).Num=Database(1).Num;
+DBofMethod(NumofMethod).Name=Database(1).Name;
+DBofMethod(NumofMethod).Magazine=Database(1).Magazine;
+DBofMethod(NumofMethod).Score=Database(1).Score;
+if(~isempty(Database(1).Score))
+    DBofMethod(NumofMethod).ScoreNum=1;
+end
+if(~isempty(Database(1).SmallScore))
+    DBofMethod(NumofMethod).SmallScore=Database(1).SmallScore;
+    DBofMethod(NumofMethod).SmallScoreNum=1;
+else
+    DBofMethod(NumofMethod).SmallScore=0;
+    DBofMethod(NumofMethod).SmallScoreNum=0;
+end
+if(~isempty(Database(1).LargeScore))
+    DBofMethod(NumofMethod).LargeScore=Database(1).LargeScore;
+    DBofMethod(NumofMethod).LargeScoreNum=1;
+else
+    DBofMethod(NumofMethod).LargeScore=0;
+    DBofMethod(NumofMethod).LargeScoreNum=0;
+end
+DBofMethod(NumofMethod).IP=[];
+DBofMethod(NumofMethod).UP=[];
+DBofMethod(NumofMethod).SV=[];
+DBofMethod(NumofMethod).HST=[];
+DBofMethod(NumofMethod).KSC=[];
+DBofMethod(NumofMethod).BSW=[];
+DBofMethod(NumofMethod).DC=[];
+DBofMethod(NumofMethod).CP=[];
+DBofMethod(NumofMethod).NumofIP=0;
+DBofMethod(NumofMethod).NumofUP=0;
+DBofMethod(NumofMethod).NumofSV=0;
+DBofMethod(NumofMethod).NumofHST=0;
+DBofMethod(NumofMethod).NumofKSC=0;
+DBofMethod(NumofMethod).NumofBSW=0;
+DBofMethod(NumofMethod).NumofDC=0;
+DBofMethod(NumofMethod).NumofCP=0;
+DBofMethod(NumofMethod).Remark=Database(1).Remark;
+Data=Database(1);
+DBofMethod = AllocateData(Data,DBofMethod,NumofMethod);
+for i=2:NumofDatabase
+    Num=Database(i).Num;
+    NumofDBM = find(strcmp({DBofMethod.Num},Num)==1);
+    if(isempty(NumofDBM))
+        NumofMethod=NumofMethod+1;
+        DBofMethod(NumofMethod).Num=Num;
+        DBofMethod(NumofMethod).Name=Database(i).Name;
+        DBofMethod(NumofMethod).Magazine=Database(i).Magazine;
+        DBofMethod(NumofMethod).Score=Database(i).Score;
+        if(~isempty(Database(i).Score))
+            DBofMethod(NumofMethod).ScoreNum=1;
+        end
+        if(~isempty(Database(i).SmallScore))
+            DBofMethod(NumofMethod).SmallScore=Database(i).SmallScore;
+            DBofMethod(NumofMethod).SmallScoreNum=1;
+        else
+            DBofMethod(NumofMethod).SmallScore=0;
+            DBofMethod(NumofMethod).SmallScoreNum=0;
+        end
+        if(~isempty(Database(i).LargeScore))
+            DBofMethod(NumofMethod).LargeScore=Database(i).LargeScore;
+            DBofMethod(NumofMethod).LargeScoreNum=1;
+        else
+            DBofMethod(NumofMethod).LargeScore=0;
+            DBofMethod(NumofMethod).LargeScoreNum=0;
+        end
+        DBofMethod(NumofMethod).IP=[];
+        DBofMethod(NumofMethod).UP=[];
+        DBofMethod(NumofMethod).SV=[];
+        DBofMethod(NumofMethod).HST=[];
+        DBofMethod(NumofMethod).KSC=[];
+        DBofMethod(NumofMethod).BSW=[];
+        DBofMethod(NumofMethod).DC=[];
+        DBofMethod(NumofMethod).CP=[];
+        DBofMethod(NumofMethod).NumofIP=0;
+        DBofMethod(NumofMethod).NumofUP=0;
+        DBofMethod(NumofMethod).NumofSV=0;
+        DBofMethod(NumofMethod).NumofHST=0;
+        DBofMethod(NumofMethod).NumofKSC=0;
+        DBofMethod(NumofMethod).NumofBSW=0;
+        DBofMethod(NumofMethod).NumofDC=0;
+        DBofMethod(NumofMethod).NumofCP=0;
+        DBofMethod(NumofMethod).Remark=Database(i).Remark;
+        Data=Database(i);
+        DBofMethod = AllocateData(Data,DBofMethod,NumofMethod);
+    else
+        if(~isempty(Database(i).Score))
+            DBofMethod(NumofMethod).Score=DBofMethod(NumofMethod).Score+Database(i).Score;
+            DBofMethod(NumofMethod).ScoreNum=DBofMethod(NumofMethod).ScoreNum+1;
+        end
+        if(~isempty(Database(i).SmallScore))
+            DBofMethod(NumofMethod).SmallScore=DBofMethod(NumofMethod).SmallScore+Database(i).SmallScore;
+            DBofMethod(NumofMethod).SmallScoreNum=DBofMethod(NumofMethod).SmallScoreNum+1;
+        end
+        if(~isempty(Database(i).LargeScore))
+            DBofMethod(NumofMethod).LargeScore=DBofMethod(NumofMethod).LargeScore+Database(i).LargeScore;
+            DBofMethod(NumofMethod).LargeScoreNum=DBofMethod(NumofMethod).LargeScoreNum+1;
+        end
+        NumofMethodNow=NumofDBM(1);
+        Data=Database(i);
+        DBofMethod = AllocateData(Data,DBofMethod,NumofMethodNow);
+    end
+end
+for i=1:length(DBofMethod)
+    if(~isempty(DBofMethod(i).Score))
+        DBofMethod(i).Score=DBofMethod(i).Score/DBofMethod(i).ScoreNum;
+    else
+        DBofMethod(i).Score=-1;
+    end
+    if(DBofMethod(i).SmallScoreNum~=0)
+        DBofMethod(i).SmallScore=DBofMethod(i).SmallScore/DBofMethod(i).SmallScoreNum;
+    else
+        DBofMethod(i).SmallScore=-1;
+    end
+    if(DBofMethod(i).LargeScoreNum~=0)
+        DBofMethod(i).LargeScore=DBofMethod(i).LargeScore/DBofMethod(i).LargeScoreNum;
+    else
+        DBofMethod(i).LargeScore=-1;
+    end
+end
+DBofMethod = rmfield(DBofMethod, 'SmallScoreNum');
+DBofMethod = rmfield(DBofMethod, 'LargeScoreNum');
+DBofMethod = rmfield(DBofMethod, 'ScoreNum');
+DBofMethod = rmfield(DBofMethod, {'NumofIP', 'NumofUP', 'NumofSV', 'NumofHST', 'NumofKSC', 'NumofBSW', 'NumofDC', 'NumofCP'});
+KKK=cell2mat({DBofMethod.Score});
+[KKKO,order]=sort(KKK,'descend');
+DBofMethod=DBofMethod(order);
+end
