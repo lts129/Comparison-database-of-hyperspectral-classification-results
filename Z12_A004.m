@@ -463,7 +463,116 @@ Database=WritetoDatabase(Database,'10.046015','CP',0.1,99.79);
 clearvars -except Database Order DBofMethod FindingTable
 save('C:\Users\lts129\Desktop\高光谱分类数据结果集.mat')
 %%
-NumofDBM = find(strcmp({DBofMethod.Num},'S0924271616303446')==1);
+%RS 2016
+clc
+clear
+load('C:\Users\lts129\Desktop\高光谱分类数据结果集.mat')
+Database=WritetoDatabase(Database,'8-2-99','IP',0.1,97.45,'RS','Deepo');
+Database=WritetoDatabase(Database,'8-2-99','UP',300,98.35);
+Database=WritetoDatabase(Database,'8-4-296','IP',0.1,96.32,'RS','AMG-M-HSEG');
+Database=WritetoDatabase(Database,'8-4-296','KSC',0.05,93.76);
+Database=WritetoDatabase(Database,'8-4-296','CP',0.02,97.45);
+Database=WritetoDatabase(Database,'8-4-355','IP',10,69.98,'RS','SVMsub-AMRF');
+Database=WritetoDatabase(Database,'8-4-355','IP',15,79.9);
+Database=WritetoDatabase(Database,'8-4-355','IP',20,84.14);
+Database=WritetoDatabase(Database,'8-4-355','UP',20,81.94);
+Database=WritetoDatabase(Database,'8-4-355','UP',30,83.3);
+Database=WritetoDatabase(Database,'8-4-355','UP',40,83.23);
+Database=WritetoDatabase(Database,'8-4-355','UP',50,86.68);
+Database=WritetoDatabase(Database,'8-4-355','UP',60,87.15);
+Database=WritetoDatabase(Database,'8-4-355','UP',70,89.35);
+Database=WritetoDatabase(Database,'8-4-355','UP',80,89.66);
+Database=WritetoDatabase(Database,'8-4-355','UP',90,90.69);
+Database=WritetoDatabase(Database,'8-4-355','UP',100,93.50);
+Database=WritetoDatabase(Database,'8-8.636','IP',0.05,93.19,'RS','tbSRC');
+Database=WritetoDatabase(Database,'8-8-636','UP',0.05,89.03);
+Database=WritetoDatabase(Database,'8-9-748','IP',0.1,96.19,'RS','CS-GC+JBF');
+Database=WritetoDatabase(Database,'8-9-748','UP',250,99.41);
+Database=WritetoDatabase(Database,'8-9-748','SV',70,99.35);
+Database=WritetoDatabase(Database,'8-9-749','IP',5,77.55,'RS','TT_AL_MSH_NKE');
+Database=WritetoDatabase(Database,'8-9-749','IP',10,85.03);
+Database=WritetoDatabase(Database,'8-9-749','IP',15,88.51);
+Database=WritetoDatabase(Database,'8-9-749','UP',5,82.55);
+Database=WritetoDatabase(Database,'8-9-749','UP',10,88.61);
+Database=WritetoDatabase(Database,'8-9-749','UP',15,92.11);
+Database=WritetoDatabase(Database,'8-9-749','SV',5,90.68);
+Database=WritetoDatabase(Database,'8-9-749','SV',10,91.64);
+Database=WritetoDatabase(Database,'8-9-749','SV',15,93.17);
+Database=WritetoDatabase(Database,'8-11-919','IP',0.1,97.61,'RS','STK');
+Database=WritetoDatabase(Database,'8-11-919','UP',250,99.11);
+Database=WritetoDatabase(Database,'8-12-985','UP',5,84.35,'RS','mlAPCRC');
+Database=WritetoDatabase(Database,'8-12-985','UP',10,90.62);
+Database=WritetoDatabase(Database,'8-12-985','UP',20,92.08);
+Database=WritetoDatabase(Database,'8-12-985','UP',40,93.36);
+Database=WritetoDatabase(Database,'8-12-985','UP',60,94.19);
+Database=WritetoDatabase(Database,'8-12-985','UP',80,94.49);
+Database=WritetoDatabase(Database,'8-12-985','UP',100,94.61);
+Database=WritetoDatabase(Database,'8-12-985','UP',120,95.39);
+Database=WritetoDatabase(Database,'8-12-985','SV',5,89.61);
+Database=WritetoDatabase(Database,'8-12-985','SV',10,93.90);
+Database=WritetoDatabase(Database,'8-12-985','SV',20,95.26);
+Database=WritetoDatabase(Database,'8-12-985','SV',40,95.49);
+Database=WritetoDatabase(Database,'8-12-985','SV',60,96.50);
+Database=WritetoDatabase(Database,'8-12-985','SV',80,97.04);
+Database=WritetoDatabase(Database,'8-12-985','SV',100,97.32);
+Database=WritetoDatabase(Database,'8-12-985','SV',120,97.67);
+[Database,Order]=GettheOrder(Database,FindingTable);
+[DBofMethod] = ReturntoDBM(Database);
+clearvars -except Database Order DBofMethod FindingTable
+save('C:\Users\lts129\Desktop\高光谱分类数据结果集.mat')
+%%
+%更新日志
+%TGRS 早期访问（2019.9.5）
+clc
+clear
+load('C:\Users\lts129\Desktop\高光谱分类数据结果集.mat')
+Database=WritetoDatabase(Database,'8818626','IP',5,83.97,'TGRS','RL-Net');
+Database=WritetoDatabase(Database,'8818626','IP',10,88.40);
+Database=WritetoDatabase(Database,'8818626','IP',15,91.18);
+Database=WritetoDatabase(Database,'8818626','CP',5,96.99);
+Database=WritetoDatabase(Database,'8818626','SV',5,79.27);
+Database=WritetoDatabase(Database,'8824221','IP',6,79.13,'GRSL','DSCP');
+Database=WritetoDatabase(Database,'8824221','CP',6,97.22);
+[Database,Order]=GettheOrder(Database,FindingTable);
+[DBofMethod] = ReturntoDBM(Database);
+clearvars -except Database Order DBofMethod FindingTable
+save('C:\Users\lts129\Desktop\高光谱分类数据结果集.mat')
+%%
+clc
+clear
+load('C:\Users\lts129\Desktop\高光谱分类数据结果集.mat')
+Database=WritetoDatabase(Database,'8824217','UP',200,99.75,'TGRS','HSI-BERT');
+Database=WritetoDatabase(Database,'8824217','SV',200,99.40);
+[Database,Order]=GettheOrder(Database,FindingTable);
+[DBofMethod] = ReturntoDBM(Database);
+clearvars -except Database Order DBofMethod FindingTable
+save('C:\Users\lts129\Desktop\高光谱分类数据结果集.mat')
+%%
+%更新日志
+%RS 2019 17期
+clc
+clear
+load('C:\Users\lts129\Desktop\高光谱分类数据结果集.mat')
+Database=WritetoDatabase(Database,'11-17-1983','UP',30,91.49,'RS','SP-KELM');
+Database=WritetoDatabase(Database,'11-17-1983','SV',30,97.85);
+Database=WritetoDatabase(Database,'11-17-1983','IP',10,78.84);
+Database=WritetoDatabase(Database,'11-17-1983','IP',15,87.18);
+Database=WritetoDatabase(Database,'11-17-1983','IP',20,90.53);
+Database=WritetoDatabase(Database,'11-17-1983','UP',10,80.26);
+Database=WritetoDatabase(Database,'11-17-1983','UP',15,84.94);
+Database=WritetoDatabase(Database,'11-17-1983','UP',20,88.21);
+Database=WritetoDatabase(Database,'11-17-1983','UP',25,91.49);
+Database=WritetoDatabase(Database,'11-17-1983','SV',10,88.58);
+Database=WritetoDatabase(Database,'11-17-1983','SV',15,92.81);
+Database=WritetoDatabase(Database,'11-17-1983','SV',20,95.90);
+Database=WritetoDatabase(Database,'11-17-1983','SV',25,97.49);
+[Database,Order]=GettheOrder(Database,FindingTable);
+[DBofMethod] = ReturntoDBM(Database);
+clearvars -except Database Order DBofMethod FindingTable
+save('C:\Users\lts129\Desktop\高光谱分类数据结果集.mat')
+%%
+cd 'E:\#lts 新学期\程序组\项目12 高光谱分类数据整理\'
+NumofDBM = find(strcmp({DBofMethod.Num},'8-9-749')==1);
 Score=DBofMethod(NumofDBM).Score
 SmallScore=DBofMethod(NumofDBM).SmallScore
 LargeScore=DBofMethod(NumofDBM).LargeScore

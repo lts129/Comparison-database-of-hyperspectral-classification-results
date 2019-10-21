@@ -1,5 +1,6 @@
 clc
 clear
+cd 'E:\#lts 新学期\程序组\项目12 高光谱分类数据整理\'
 load('C:\Users\lts129\Desktop\高光谱分类数据结果集.mat')
 %所需函数WritetoDatabase、ReturntoDBM、AllocateData、GettheOrder
 %%
@@ -86,22 +87,37 @@ TempDatabase=WritetoDatabase(TempDatabase,'XXX','IP',200,97.27);
 %将一种新方法结果在加入数据库的条件进行比较
 clc
 clear
-
+cd 'E:\#lts 新学期\程序组\项目12 高光谱分类数据整理\'
 load('C:\Users\lts129\Desktop\高光谱分类数据结果集.mat')
-Database=WritetoDatabase(Database,'XXX','IP',0.01,81.95);
-% % Database=WritetoDatabase(Database,'XXX','IP',0.05,92.69);
-% % Database=WritetoDatabase(Database,'XXX','IP',0.1,95.06);
-% Database=WritetoDatabase(Database,'XXX','IP',5,63.97);
-% Database=WritetoDatabase(Database,'XXX','IP',10,77.31);
-% Database=WritetoDatabase(Database,'XXX','IP',15,78.94);
-% Database=WritetoDatabase(Database,'XXX','IP',50,93.02);
-
-Database=WritetoDatabase(Database,'XXX','IP',5,71);
-Database=WritetoDatabase(Database,'XXX','IP',10,82.25);
-Database=WritetoDatabase(Database,'XXX','IP',15,85.88);
-% % Database=WritetoDatabase(Database,'XXX','IP',50,93.02);
-% % Database=WritetoDatabase(Database,'XXX','IP',200,97.27);
-
+%原始结果
+% Database=WritetoDatabase(Database,'XXX','UP',0.01,98.44);
+% Database=WritetoDatabase(Database,'XXX','UP',0.05,99.55);
+Database=WritetoDatabase(Database,'XXX','UP',5,90.02);
+Database=WritetoDatabase(Database,'XXX','UP',10,94.45);
+Database=WritetoDatabase(Database,'XXX','UP',0.01,98.77);
+Database=WritetoDatabase(Database,'XXX','UP',50,99.11);
+Database=WritetoDatabase(Database,'XXX','UP',200,99.7);
+% Database=WritetoDatabase(Database,'XXX','UP',0.1,99.08);
+% Database=WritetoDatabase(Database,'XXX','UP',50,98.92);
+% Database=WritetoDatabase(Database,'XXX','UP',200,99.53);
+%新结果
+% Database=WritetoDatabase(Database,'XXX1','UP',0.01,98.44);
+% Database=WritetoDatabase(Database,'XXX1','UP',0.05,99.55);
+% % Database=WritetoDatabase(Database,'XXX1','UP',5,87.);
+% % Database=WritetoDatabase(Database,'XXX1','UP',10,93.13);
+% % Database=WritetoDatabase(Database,'XXX1','UP',20,96.38);
+% % Database=WritetoDatabase(Database,'XXX1','UP',50,98.06);
+% Database=WritetoDatabase(Database,'XXX1','UP',200,99.53);
+%后结果
+% Database=WritetoDatabase(Database,'XXX2','UP',0.01,98.44);
+% Database=WritetoDatabase(Database,'XXX2','UP',0.05,99.55);
+% % Database=WritetoDatabase(Database,'XXX2','UP',5,92.07);
+% % Database=WritetoDatabase(Database,'XXX2','UP',10,95.23);
+% % Database=WritetoDatabase(Database,'XXX3','UP',5,96.6);
+% % Database=WritetoDatabase(Database,'XXX3','UP',10,97.45);
+% % Database=WritetoDatabase(Database,'XXX2','UP',20,97.78);
+% % Database=WritetoDatabase(Database,'XXX2','UP',50,99.04);
+% Database=WritetoDatabase(Database,'XXX2','UP',200,99.53);
 
 [Database,Order]=GettheOrder(Database,FindingTable);
 [DBofMethod] = ReturntoDBM(Database);
@@ -109,3 +125,15 @@ NumofDBM = find(strcmp({DBofMethod.Num},'XXX')==1);
 Score=DBofMethod(NumofDBM).Score
 SmallScore=DBofMethod(NumofDBM).SmallScore
 LargeScore=DBofMethod(NumofDBM).LargeScore
+% % % NumofDBM = find(strcmp({DBofMethod.Num},'XXX1')==1);
+% % % Score=DBofMethod(NumofDBM).Score
+% % % SmallScore=DBofMethod(NumofDBM).SmallScore
+% % % LargeScore=DBofMethod(NumofDBM).LargeScore
+% % % NumofDBM = find(strcmp({DBofMethod.Num},'XXX2')==1);
+% % % Score=DBofMethod(NumofDBM).Score
+% % % SmallScore=DBofMethod(NumofDBM).SmallScore
+% % % LargeScore=DBofMethod(NumofDBM).LargeScore
+% % % NumofDBM = find(strcmp({DBofMethod.Num},'XXX3')==1);
+% % % Score=DBofMethod(NumofDBM).Score
+% % % SmallScore=DBofMethod(NumofDBM).SmallScore
+% % % LargeScore=DBofMethod(NumofDBM).LargeScore

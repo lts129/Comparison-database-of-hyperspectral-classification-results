@@ -80,5 +80,8 @@ end
 Score=sum(double(Score~=-1).*Score)/(sum(Score~=-1));
 SmallScore=sum(double(SmallScore~=-1).*SmallScore)/(sum(SmallScore~=-1));
 LargeScore=sum(double(LargeScore~=-1).*LargeScore)/(sum(LargeScore~=-1));
+
+
+
 end
 

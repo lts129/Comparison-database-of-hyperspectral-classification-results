@@ -254,29 +254,6 @@ for i=1:3
                     end
                 end
             end
-            
-            NF=find(Finding{i}<Condition);
-            if(~isempty(NF))
-                if(Finding{i}(NF(1))>1)
-                    NOF=find(strcmp({Order.Figure},ALLFIGURE{i})==1);
-                    NOC=find(cell2mat({Order.Condition})==Finding{i}(NF(1)));
-                    NFC=intersect(NOF,NOC);
-                    LastResult=cell2mat(Order(NFC).Table(1,:));
-                    LastScore=cell2mat(Order(NFC).Table(3,:));
-                    RF=find(LastResult>Database(NumofFigure(j)).Result);
-                    if(~isempty(RF))
-                        if(~isempty(Database(NumofFigure(j)).Score))
-                            if(Database(NumofFigure(j)).Score>LastScore(RF(end)))
-                                Database(NumofFigure(j)).Score=LastScore(RF(end));
-                            end
-                        end
-                        if(RF(end)==length(LastResult))
-                            Database(NumofFigure(j)).Score=0;
-                        end
-                        
-                    end
-                end
-            end
         end
         if((Condition<1)&&(Condition>0))
             NF=find(Finding{i}>Condition);
@@ -302,13 +279,114 @@ for i=1:3
                         end
                     end
                 end
+            end   
+        end
+        
+        
+        
+    end
+end
+%%ÖØÐÂÐ´ÈëOrder
+
+for i=1:l
+    NumofFigure=find(strcmp({Database.Figure},FindingTable{i,1})==1);
+    NumofCondition=find(cell2mat({Database.Condition})==FindingTable{i,2});
+    NumforCondition=intersect(NumofFigure,NumofCondition);
+    ok(NumforCondition,1)=0;
+    Result=cell2mat({Database(NumforCondition).Result});
+    Num={Database(NumforCondition).Num};
+    Score={Database(NumforCondition).Score};
+    [output,order]=sort(Result,'descend');
+    Table(1,:)=num2cell(output);
+    Table(2,:)=Num(1,order);
+    Table(3,:)=Score(order);
+    Table(4,:)=num2cell(NumforCondition(order));
+    DDD=Table(3,:);
+    [Database(NumforCondition(order)).Score]=deal(DDD{:});
+    if(FindingTable{i,4}==1)
+        [Database(NumforCondition(order)).SmallScore]=deal(DDD{:});
+    end
+    if(FindingTable{i,4}==3)
+        [Database(NumforCondition(order)).LargeScore]=deal(DDD{:});
+    end
+    Order(i).Table=Table;
+    clearvars Table
+end
+
+for i=1:l
+    for j=2:length(Order(i).Table)
+        if(Order(i).Table{3,j}>=Order(i).Table{3,j-1})
+            if(Order(i).Table{1,j}~=Order(i).Table{1,j-1})
+                FR1=find(cell2mat(Order(i).Table(1,:))<Order(i).Table{1,j});
+                FR2=find(cell2mat(Order(i).Table(3,:))~=Order(i).Table{3,j});
+                FR=intersect(FR1,FR2);
+                if(isempty(FR))
+                    Order(i).Table{3,j}=Order(i).Table{3,j-1}/2;
+                else
+                    Order(i).Table{3,j}=(Order(i).Table{3,j-1}+Order(i).Table{3,FR(1)})/2;
+                end
+                
             end
-            
+        end
+        if(Order(i).Table{1,j}==Order(i).Table{1,j-1})
+            Order(i).Table{3,j}=Order(i).Table{3,j-1};
+        end
+    end
+    NumofFigure=find(strcmp({Database.Figure},FindingTable{i,1})==1);
+    NumofCondition=find(cell2mat({Database.Condition})==FindingTable{i,2});
+    NumforCondition=intersect(NumofFigure,NumofCondition);
+    ok(NumforCondition,1)=0;
+    Result=cell2mat({Database(NumforCondition).Result});
+    Num={Database(NumforCondition).Num};
+    Score={Database(NumforCondition).Score};
+    [output,order]=sort(Result,'descend');
+    Table=Order(i).Table;
+    DDD=Table(3,:);
+    [Database(NumforCondition(order)).Score]=deal(DDD{:});
+    if(FindingTable{i,4}==1)
+        [Database(NumforCondition(order)).SmallScore]=deal(DDD{:});
+    end
+    if(FindingTable{i,4}==3)
+        [Database(NumforCondition(order)).LargeScore]=deal(DDD{:});
+    end
+    clearvars Table
+end
+
+for i=1:3
+    NumofFigure = find(strcmp({Database.Figure},ALLFIGURE{i})==1);
+    ConditionofFigure=unique(cell2mat({Database(NumofFigure).Condition}));
+    for j=1:length(NumofFigure)
+        Condition=Database(NumofFigure(j)).Condition;
+        if(Condition>1)
             NF=find(Finding{i}<Condition);
             if(~isempty(NF))
-                if(Finding{i}(NF(1))>0)
+                if(Finding{i}(NF(end))>1)
                     NOF=find(strcmp({Order.Figure},ALLFIGURE{i})==1);
-                    NOC=find(cell2mat({Order.Condition})==Finding{i}(NF(1)));
+                    NOC=find(cell2mat({Order.Condition})==Finding{i}(NF(end)));
+                    NFC=intersect(NOF,NOC);
+                    LastResult=cell2mat(Order(NFC).Table(1,:));
+                    LastScore=cell2mat(Order(NFC).Table(3,:));
+                    RF=find(LastResult>Database(NumofFigure(j)).Result);
+                    if(~isempty(RF))
+                        if(~isempty(Database(NumofFigure(j)).Score))
+                            if(Database(NumofFigure(j)).Score>LastScore(RF(end)))
+                                Database(NumofFigure(j)).Score=LastScore(RF(end));
+                            end
+                        end
+                        if(RF(end)==length(LastResult))
+                            Database(NumofFigure(j)).Score=0;
+                        end
+                        
+                    end
+                end
+            end
+        end
+        if((Condition<1)&&(Condition>0))
+            NF=find(Finding{i}<Condition);
+            if(~isempty(NF))
+                if(Finding{i}(NF(end))>0)
+                    NOF=find(strcmp({Order.Figure},ALLFIGURE{i})==1);
+                    NOC=find(cell2mat({Order.Condition})==Finding{i}(NF(end)));
                     NFC=intersect(NOF,NOC);
                     LastResult=cell2mat(Order(NFC).Table(1,:));
                     LastScore=cell2mat(Order(NFC).Table(3,:));
@@ -335,8 +413,30 @@ for i=1:3
         
     end
 end
-
-
+for i=1:l
+    NumofFigure=find(strcmp({Database.Figure},FindingTable{i,1})==1);
+    NumofCondition=find(cell2mat({Database.Condition})==FindingTable{i,2});
+    NumforCondition=intersect(NumofFigure,NumofCondition);
+    ok(NumforCondition,1)=0;
+    Result=cell2mat({Database(NumforCondition).Result});
+    Num={Database(NumforCondition).Num};
+    Score={Database(NumforCondition).Score};
+    [output,order]=sort(Result,'descend');
+    Table(1,:)=num2cell(output);
+    Table(2,:)=Num(1,order);
+    Table(3,:)=Score(order);
+    Table(4,:)=num2cell(NumforCondition(order));
+    DDD=Table(3,:);
+    [Database(NumforCondition(order)).Score]=deal(DDD{:});
+    if(FindingTable{i,4}==1)
+        [Database(NumforCondition(order)).SmallScore]=deal(DDD{:});
+    end
+    if(FindingTable{i,4}==3)
+        [Database(NumforCondition(order)).LargeScore]=deal(DDD{:});
+    end
+    Order(i).Table=Table;
+    clearvars Table
+end
 
 
 end

@@ -8,6 +8,10 @@ DBofMethod(NumofMethod).Magazine=Database(1).Magazine;
 DBofMethod(NumofMethod).Score=Database(1).Score;
 if(~isempty(Database(1).Score))
     DBofMethod(NumofMethod).ScoreNum=1;
+    DBofMethod(NumofMethod).Score=Database(1).Score;
+else
+    DBofMethod(NumofMethod).Score=0;
+    DBofMethod(NumofMethod).ScoreNum=0;
 end
 if(~isempty(Database(1).SmallScore))
     DBofMethod(NumofMethod).SmallScore=Database(1).SmallScore;
@@ -53,6 +57,9 @@ for i=2:NumofDatabase
         DBofMethod(NumofMethod).Score=Database(i).Score;
         if(~isempty(Database(i).Score))
             DBofMethod(NumofMethod).ScoreNum=1;
+        else
+            DBofMethod(NumofMethod).Score=0;
+            DBofMethod(NumofMethod).ScoreNum=0;
         end
         if(~isempty(Database(i).SmallScore))
             DBofMethod(NumofMethod).SmallScore=Database(i).SmallScore;
@@ -88,25 +95,26 @@ for i=2:NumofDatabase
         Data=Database(i);
         DBofMethod = AllocateData(Data,DBofMethod,NumofMethod);
     else
+        NumofMethodNow=NumofDBM(1);
         if(~isempty(Database(i).Score))
-            DBofMethod(NumofMethod).Score=DBofMethod(NumofMethod).Score+Database(i).Score;
-            DBofMethod(NumofMethod).ScoreNum=DBofMethod(NumofMethod).ScoreNum+1;
+            DBofMethod(NumofMethodNow).Score=DBofMethod(NumofMethodNow).Score+Database(i).Score;
+            DBofMethod(NumofMethodNow).ScoreNum=DBofMethod(NumofMethodNow).ScoreNum+1;
         end
         if(~isempty(Database(i).SmallScore))
-            DBofMethod(NumofMethod).SmallScore=DBofMethod(NumofMethod).SmallScore+Database(i).SmallScore;
-            DBofMethod(NumofMethod).SmallScoreNum=DBofMethod(NumofMethod).SmallScoreNum+1;
+            DBofMethod(NumofMethodNow).SmallScore=DBofMethod(NumofMethodNow).SmallScore+Database(i).SmallScore;
+            DBofMethod(NumofMethodNow).SmallScoreNum=DBofMethod(NumofMethodNow).SmallScoreNum+1;
         end
         if(~isempty(Database(i).LargeScore))
-            DBofMethod(NumofMethod).LargeScore=DBofMethod(NumofMethod).LargeScore+Database(i).LargeScore;
-            DBofMethod(NumofMethod).LargeScoreNum=DBofMethod(NumofMethod).LargeScoreNum+1;
+            DBofMethod(NumofMethodNow).LargeScore=DBofMethod(NumofMethodNow).LargeScore+Database(i).LargeScore;
+            DBofMethod(NumofMethodNow).LargeScoreNum=DBofMethod(NumofMethodNow).LargeScoreNum+1;
         end
-        NumofMethodNow=NumofDBM(1);
+        
         Data=Database(i);
         DBofMethod = AllocateData(Data,DBofMethod,NumofMethodNow);
     end
 end
 for i=1:length(DBofMethod)
-    if(~isempty(DBofMethod(i).Score))
+    if(DBofMethod(i).ScoreNum~=0)
         DBofMethod(i).Score=DBofMethod(i).Score/DBofMethod(i).ScoreNum;
     else
         DBofMethod(i).Score=-1;
